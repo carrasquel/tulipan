@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="ncarrasquel">
+    <title>Dev</title>
+	
+    <meta name="theme-color" content="#563d7c">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+
+</head>
+<body class="bg-light">
+    <ul>
+        <li>
+            <a href="#!/">App1</a>
+            <a href="#!/new">App2</a>
+            <a href="#!/template">App3</a>
+            <a href="#!/favorite">App4</a>
+        </li>
+    </ul>
+    
+    <div id="app1">
+        <span>
+            Hello {{ name | capitalize }}!!!
+        </span>
+        <br>
+        <span>
+            <input tp-on:keyup.112="submit">
+        </span>
+        <br>
+        <span>
+            {{ value | percent }}
+        </span>
+
+        <router-view></router-view>
+    </div>
+
+    <div id="app2">
+        <span>
+            Hello {{ name | capitalize }}!!!
+        </span>
+        <br>
+        <span>
+            <input tp-on:keyup.112="submit">
+        </span>
+        <br>
+        <span>
+            {{ value | percent }}
+        </span>
+    </div>
+
+    <div id="app4">
+        <span>
+            Hello this is a subroute!!!
+        </span>
+        <br>
+        <span>
+            {{ value | percent }}
+        </span>
+    </div>
+
+    <router-view></router-view>
+
+    <script src="../dev/navigo.js"></script>
+    <script src="../dev/store.js"></script>
+    <script src="../dev/underscore.js"></script>
+    <script src="../dev/turpial-core.js"></script>
+    <script src="../dev/turpial-resource.js"></script>
+    <script src="../dev/tulipan.js"></script>
+
+    <script>
+        var vm1 = new Tulipan({
+
+            el: "#app1",
+            
+            route: "/",
+            
+            data: {
+                value: 4,
+                name: "tulipan"
+            },
+
+            ready: function(){
+
+                console.log("App ready!!!");
+                this.$store.set('username', 'nelson');
+                
+            },
+
+            methods: {                
+
+                submit: function(){
+                    console.log("sumbitted!!!");
+                    console.log(this.$store.get('username'));
+                }
+            },
+
+            filters: {
+                percent: function (value) {
+                    if (value != null){
+                        return value.toFixed(2) + " %"
+                    }
+                
+                    return value;
+                },
+
+                scientific: function (value) {
+                    if (value != null){
+                        return value.toExponential(2);
+                    }
+                
+                    return value;
+                }
+            }
+        })
+
+        var vm2 = new Tulipan({
+
+            el: "#app2",
+            
+            route: "/new",
+
+            data: {
+                value: 5,
+                name: "turpial"
+            },
+
+            methods: {
+                submit: function(){
+                    console.log("sumbitted!!!");
+                },
+
+                before: function(){
+                    this.tryBefore();
+                },
+
+                after: function(params, query){
+                    console.log("vm2 routed");
+                    console.log(query);
+                },
+
+                tryBefore: function(){
+                    console.log("Befored");
+                }
+            },
+
+            filters: {
+                percent: function (value) {
+                    if (value != null){
+                        return value.toFixed(2) + " %"
+                    }
+                
+                    return value;
+                },
+
+                scientific: function (value) {
+                    if (value != null){
+                        return value.toExponential(2);
+                    }
+                
+                    return value;
+                }
+            }
+        })
+
+        var vm3 = new Tulipan({
+
+            template: {
+                url: "app3.html",
+                async: false
+            },
+            
+            route: "/template",
+
+            data: {
+                value: 12,
+                name: "pereza"
+            },
+
+            methods: {
+                submit: function(){
+                    console.log("sumbitted!!!");
+                },
+
+                after: function(params, query){
+                    console.log("vm3 routed");
+					console.log(params);
+                    console.log(query);
+                },
+
+                leave: function(){
+                    console.log("Leaving app3");
+                }
+            },
+
+            filters: {
+                percent: function (value) {
+                    if (value != null){
+                        return value.toFixed(2) + " %"
+                    }
+                
+                    return value;
+                },
+
+                scientific: function (value) {
+                    if (value != null){
+                        return value.toExponential(2);
+                    }
+                
+                    return value;
+                }
+            }
+        })
+
+        var vm4 = new Tulipan({
+
+            el: "#app4",
+            
+            route: {
+                main: "#app1",
+                route: "/favorite"
+            },
+
+            data: {
+                value: 32
+            },
+
+            methods: {
+                submit: function(){
+                    console.log("sumbitted!!!");
+                },
+
+                after: function(params, query){
+                    console.log("vm4 routed");
+                    console.log(query);
+                },
+
+                leave: function(){
+                    console.log("Leaving app4");
+                }
+            },
+
+            filters: {
+                percent: function (value) {
+                    if (value != null){
+                        return value.toFixed(2) + " %"
+                    }
+                
+                    return value;
+                }
+            }
+        })
+
+        Tulipan.directive('on').keyCodes.f1 = 112;
+
+    </script>
+</body>
+</html>
