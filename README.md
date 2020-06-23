@@ -5,7 +5,7 @@ Tulipan.js is a simple minimalistic and progressive JavaScript Framework for bui
 
 Tulipan.js was made for teaching purposes, but since it uses modern web technologies, it can be used also for production and commercial purposes.
 
-Tulipan.js is forked and a combination of several Javascript pieces of technologies. Following the [Single-Responsability Principle](https://en.wikipedia.org/wiki/Single-responsibility_principle), it combines the best selected tools for each of the features found in a common Single Page Application.
+Tulipan.js is a forked and a combination of several Javascript pieces of technologies. Following the [Single-Responsability Principle](https://en.wikipedia.org/wiki/Single-responsibility_principle), it combines the best selected tools for each of the features found in a common Single Page Application.
 
 # Integration
 
