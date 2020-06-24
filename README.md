@@ -19,6 +19,10 @@ Consider Tulipan.js as a Swiss Tool, it integrates in a convenient way several J
 | [Store.js](https://github.com/marcuswestin/store.js/) | Library selected for cross-browser storage |
 | [Underscore.js](https://underscorejs.org/) | Library selected for functional programming |
 
+# Documentation
+
+You can find Tulipan.js documentation on [Read the Docs](http://tulipan-documentation.readthedocs.io).
+
 ### Support development
 
 If you liked this, donate to the cause.
