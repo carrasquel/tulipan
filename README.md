@@ -15,6 +15,12 @@ Drop the following into your page:
 <script src="//unpkg.com/tulipan"></script>
 ``` 
 
+You can also use jsdelivr
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/tulipan@1.0.1/dist/tulipan.min.js"></script>
+```
+
 or use via npm:
 
 ```bash
