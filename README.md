@@ -7,6 +7,19 @@ Tulipan.js was made for teaching purposes, but since it uses modern web technolo
 
 Tulipan.js is a forked and a combination of several Javascript pieces of technologies. Following the [Single-Responsability Principle](https://en.wikipedia.org/wiki/Single-responsibility_principle), it combines the best selected tools for each of the features found in a common Single Page Application.
 
+# Installation
+
+Drop the following into your page:
+
+```html
+<script src="//unpkg.com/tulipan"></script>
+``` 
+
+or use via npm:
+
+```bash
+npm install tulipan --save
+
 # Integration
 
 Consider Tulipan.js as a Swiss Tool, it integrates in a convenient way several Javascript libraries and Frameworks, to allow beginners to develop high end modern web applications. The following list shows all technologies integrated and their use.
