@@ -18,13 +18,13 @@ lines = [
 
 for _file in files:
 
-    js_file = os.path.join("development", _file)
+    js_file = os.path.join("dev", _file)
 
     with open(js_file, 'r') as c:
         lines += c.readlines()
 
 # Save temporary file
-js_file = os.path.join("production", "tulipan.js")
+js_file = os.path.join("dist", "tulipan.js")
 
 with open(js_file, 'w') as m:
     m.writelines(lines)
@@ -59,3 +59,27 @@ with gzip.open(gzipped, "wb") as f:
     f.write(bindata)
 
 print("Compression complete. See {}".format(f.name))
+
+# Export for NPM module
+
+print("Writing exports file for NPM module")
+
+with open(js_file, 'r') as c:
+    lines = c.readlines()
+
+jsnext = lines[:]
+lines.append("")
+lines.append("\n\nmodule.exports = Tulipan;")
+
+main_file = js_file.rstrip('.js')+'.cjs.js'
+
+with open(main_file, 'w') as m:
+    m.writelines(lines)
+
+jsnext.append("")
+jsnext.append("\n\nexport default Tulipan;")
+
+module_file = js_file.rstrip('.js')+'.es.js'
+
+with open(module_file, 'w') as m:
+    m.writelines(jsnext)

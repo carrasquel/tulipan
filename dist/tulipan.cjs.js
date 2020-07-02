@@ -14620,3 +14620,5 @@ var _tulipan = (function() {
 
     return Tulipan;
 })));
+
+module.exports = Tulipan;

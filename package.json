@@ -1,0 +1,35 @@
+{
+  "name": "tulipan",
+  "version": "1.0.0",
+  "description": "Tulipan.js is a simple minimalistic and progressive JavaScript Framework for building Single Page Applications on the web",
+  "main": "dist/tulipan.cs.js",
+  "browser": "dist/tulipan.min.js",
+  "module": "dist/tulipan.es.js",
+  "jsnext:main": "dist/tulipan.es.js",
+  "dependencies": {},
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carrasquel/tulipan.git"
+  },
+  "keywords": [
+    "JavaScript",
+    "Front-End",
+    "Framework",
+    "vanilla"
+  ],
+  "author": {
+    "name": "Nelson Carrasquel",
+    "email": "carrasquel@outlook.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/carrasquel/tulipan/issues"
+  },
+  "homepage": "https://github.com/carrasquel/tulipan#readme"
+}
