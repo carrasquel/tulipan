@@ -14343,8 +14343,8 @@ var _tulipan = (function() {
         for (const [key, app] of _routes.entries()) {
             if (key == _id){    
                 app.$set("visibleApp", true);
+                return;
             }
-            return;
         }
     }
 
@@ -14522,9 +14522,14 @@ var _tulipan = (function() {
 
                         asyncLoadHTML(templateUrl, function(html){
                             div_app = createElementFromHTML(html);
-                            var rand = Math.floor(Math.random() * 999);
-                            div_app.setAttribute("id", "tp-" + rand);
-                            options.el = "#tp-" + rand;
+                            
+                            if (div_app.id == ""){
+                                var rand = Math.floor(Math.random() * 999);
+                                div_app.setAttribute("id", "tp-" + rand);
+                                options.el = "#tp-" + rand;
+                            } else {
+                                options.el = "#" + div_app.id;
+                            }
 
                             app = registerRoute(div_app, options);
                         });
@@ -14533,7 +14538,7 @@ var _tulipan = (function() {
 
                     } else {
 
-                    var html = syncLoadHTML(templateUrl);
+                        var html = syncLoadHTML(templateUrl);
 
                     }
                 } else {
@@ -14543,9 +14548,14 @@ var _tulipan = (function() {
                 }
 
                 div_app = createElementFromHTML(html);
-                var rand = Math.floor(Math.random() * 999);
-                div_app.setAttribute("id", "tp-" + rand);
-                options.el = "#tp-" + rand;
+                
+                if (div_app.id == ""){
+                    var rand = Math.floor(Math.random() * 999);
+                    div_app.setAttribute("id", "tp-" + rand);
+                    options.el = "#tp-" + rand;
+                } else {
+                    options.el = "#" + div_app.id;
+                }
                 
             } else {
 
@@ -14567,7 +14577,7 @@ var _tulipan = (function() {
         return app;
     }
 
-    Tulipan.version = '1.0.0';
+    Tulipan.version = '1.0.2';
 
     Tulipan.extend = function(options) {
         TurpialCore.extend(options);
