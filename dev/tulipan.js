@@ -1,5 +1,5 @@
 /*!
- * tulipan.js v1.0.0
+ * tulipan.js v1.0.3
  * (c) 2020 Nelson Carrasquel
  * Released under the MIT License.
  */
@@ -273,7 +273,7 @@ var _tulipan = (function() {
         return app;
     }
 
-    Tulipan.version = '1.0.2';
+    Tulipan.version = '1.0.3';
 
     Tulipan.extend = function(options) {
         TurpialCore.extend(options);
@@ -284,11 +284,11 @@ var _tulipan = (function() {
     };
 
     Tulipan.set = function(object, key, value){
-        Vue.set(object, key, value);
+        TurpialCore.set(object, key, value);
     };
 
     Tulipan.delete = function(object, key){
-        Vue.delete(object, key);
+        TurpialCore.delete(object, key);
     };
 
     Tulipan.directive = function () {
