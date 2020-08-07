@@ -25,6 +25,20 @@
                 font-size: 3.5rem;
             }
         }
+
+        /* always present */
+        .expand-transition {
+            transition: all .3s ease;
+            height: 30px;
+            padding: 10px;
+        }
+        /* .expand-enter defines the starting state for entering */
+        /* .expand-leave defines the ending state for leaving */
+        .expand-enter, .expand-leave {
+            height: 0;
+            padding: 0 10px;
+            opacity: 0;
+        }
     </style>
 
 </head>
@@ -38,7 +52,7 @@
         </li>
     </ul>
     
-    <div id="app1">
+    <div id="app1" transition="expand">
         <span>
             Hello {{ name | capitalize }}!!!
         </span>
@@ -54,7 +68,7 @@
         <router-view></router-view>
     </div>
 
-    <div id="app2">
+    <div id="app2" transition="expand">
         <span>
             Hello {{ name | capitalize }}!!!
         </span>
@@ -68,7 +82,7 @@
         </span>
     </div>
 
-    <div id="app4">
+    <div id="app4" transition="expand">
         <span>
             Hello this is a subroute!!!
         </span>
