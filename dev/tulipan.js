@@ -18,9 +18,9 @@
     TurpialCore.prototype.$_ = _;
  };
 
- UnderscorePlugin.install = function(TurpialCore) {
+ UnderscorePlugin.install = function(Tulipan) {
 
-    TurpialCore.prototype.$router = new Navigo(null, true, '#!');
+    Tulipan.prototype.$router = new Navigo(null, true, '#!');
  };
 
 var _tulipan = (function() {
