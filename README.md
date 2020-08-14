@@ -47,7 +47,7 @@ You can find Tulipan.js documentation on [Read the Docs](http://tulipan-document
 
 If you liked this, donate to the cause.
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/carrasquel)
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/carrasquel) [![Join the chat at https://gitter.im/Tulipan-Framework/community](https://badges.gitter.im/Tulipan-Framework/community.svg)](https://gitter.im/Tulipan-Framework/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## License
 
