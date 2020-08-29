@@ -20,7 +20,7 @@ Drop the following into your page:
 You can also use jsdelivr
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/tulipan@1.0.1/dist/tulipan.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tulipan@1.0.4/dist/tulipan.min.js"></script>
 ```
 
 or use via npm:
