@@ -14322,7 +14322,9 @@ return plugin;
     TurpialCore.prototype.$_ = _;
  };
 
- UnderscorePlugin.install = function(TurpialCore) {
+ var RouterPlugin = new Object;
+
+ RouterPlugin.install = function(TurpialCore) {
 
     TurpialCore.prototype.$router = new Navigo(null, true, '#!');
  };
@@ -14354,6 +14356,16 @@ var _tulipan = (function() {
 
     function _pushApp(el, app){
         _apps.set(el, app);
+    }
+
+    function _setInApp(el, key, value){
+        var app = _getApp(el);
+        app.$set(key, value);
+    }
+
+    function _getInApp(el, key){
+        var app = _getApp(el);
+        return app.$get(key);
     }
 
     function route(options){
@@ -14405,9 +14417,25 @@ var _tulipan = (function() {
     return {
       route: route,
       router_resolve: resolve,
-      getApp: _getApp
+      getApp: _getApp,
+      setInApp: _setInApp,
+      getInApp: _getInApp
     };
 })();
+
+var AppSetPlugin = new Object;
+
+AppSetPlugin.install = function(TurpialCore) {
+
+   TurpialCore.prototype.$setOn = _tulipan.setInApp;
+};
+
+var AppGetPlugin = new Object;
+
+AppGetPlugin.install = function(TurpialCore) {
+
+   TurpialCore.prototype.$getOn = _tulipan.getInApp;
+};
 
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -14577,7 +14605,7 @@ var _tulipan = (function() {
         return app;
     }
 
-    Tulipan.version = '1.0.3';
+    Tulipan.version = '1.0.4';
 
     Tulipan.extend = function(options) {
         TurpialCore.extend(options);
@@ -14626,7 +14654,13 @@ var _tulipan = (function() {
     
     Tulipan.use(StorePlugin);
 
+    Tulipan.use(RouterPlugin);
+
     Tulipan.use(UnderscorePlugin);
+
+    Tulipan.use(AppSetPlugin);
+
+    Tulipan.use(AppGetPlugin);
 
     return Tulipan;
 })));
