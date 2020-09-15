@@ -1,5 +1,5 @@
 /*!
- * tulipan.js v1.0.3
+ * tulipan.js v1.0.5
  * (c) 2020 Nelson Carrasquel
  * Released under the MIT License.
  */
@@ -52,6 +52,17 @@ var _tulipan = (function() {
 
     function _pushApp(el, app){
         _apps.set(el, app);
+    }
+
+    function _idAvailable(_id){
+
+        for (const [key, app] of _apps.entries()) {
+            if (key == _id){
+                return false;
+            }
+        }
+
+        return true;
     }
 
     function _setInApp(el, key, value){
@@ -115,7 +126,8 @@ var _tulipan = (function() {
       router_resolve: resolve,
       getApp: _getApp,
       setInApp: _setInApp,
-      getInApp: _getInApp
+      getInApp: _getInApp,
+      idAvailable: _idAvailable
     };
 })();
 
@@ -223,6 +235,10 @@ AppGetPlugin.install = function(TurpialCore) {
 
         return app;
     }
+
+    function elAvailable(el){
+        return _tulipan.idAvailable(el);
+    }
     
     function Tulipan(options) {
 
@@ -249,8 +265,14 @@ AppGetPlugin.install = function(TurpialCore) {
                             
                             if (div_app.id == ""){
                                 var rand = Math.floor(Math.random() * 999);
+                                var el = "tp-" + rand;
+                                while (!elAvailable(el)){
+                                    rand = Math.floor(Math.random() * 999);
+                                    el = "tp-" + rand;
+                                }
+                                
                                 div_app.setAttribute("id", "tp-" + rand);
-                                options.el = "#tp-" + rand;
+                                options.el = "#" + el;
                             } else {
                                 options.el = "#" + div_app.id;
                             }
@@ -275,8 +297,14 @@ AppGetPlugin.install = function(TurpialCore) {
                 
                 if (div_app.id == ""){
                     var rand = Math.floor(Math.random() * 999);
+                    var el = "tp-" + rand;
+                    while (!elAvailable(el)){
+                        rand = Math.floor(Math.random() * 999);
+                        el = "tp-" + rand;
+                    }
+                    
                     div_app.setAttribute("id", "tp-" + rand);
-                    options.el = "#tp-" + rand;
+                    options.el = "#" + el;
                 } else {
                     options.el = "#" + div_app.id;
                 }
@@ -301,7 +329,7 @@ AppGetPlugin.install = function(TurpialCore) {
         return app;
     }
 
-    Tulipan.version = '1.0.4';
+    Tulipan.version = '1.0.5';
 
     Tulipan.extend = function(options) {
         TurpialCore.extend(options);
