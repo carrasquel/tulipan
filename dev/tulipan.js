@@ -1,63 +1,107 @@
 /*!
- * tulipan.js v1.0.5
+ * tulipan.js v1.0.6
  * (c) 2020 Nelson Carrasquel
  * Released under the MIT License.
  */
 
- var StorePlugin = new Object;
+var StorePlugin = new Object;
 
- StorePlugin.install = function(TurpialCore) {
+StorePlugin.install = function(TurpialCore) {
 
     TurpialCore.prototype.$store = store;
- };
+};
 
- var UnderscorePlugin = new Object;
+var UnderscorePlugin = new Object;
 
- UnderscorePlugin.install = function(TurpialCore) {
+UnderscorePlugin.install = function(TurpialCore) {
 
     TurpialCore.prototype.$_ = _;
- };
+};
 
- var RouterPlugin = new Object;
+var RouterPlugin = new Object;
 
- RouterPlugin.install = function(TurpialCore) {
+RouterPlugin.install = function(TurpialCore) {
 
     TurpialCore.prototype.$router = new Navigo(null, true, '#!');
- };
+};
+
+var TimeoutPlugin = new Object;
+
+TimeoutPlugin.install = function(TurpialCore) {
+
+    TurpialCore.prototype.$timeout = function(callback, timeout) {
+        setTimeout(callback, timeout);
+    }
+};
+
+var _interval = (function() {
+    var _intervals = new Map();
+
+    function _pushInterval(name, callback, interval) {
+        var response = setInterval(callback, interval);
+        _intervals.set(name, response);
+
+    };
+
+    function _removeInterval(name) {
+        var response = _intervals.get(name);
+        clearInterval(response);
+        _intervals.delete(name);
+    };
+
+    return {
+        push: _pushInterval,
+        remove: _removeInterval
+    };
+
+})();
+
+var IntervalPlugin = new Object;
+
+IntervalPlugin.install = function(TurpialCore) {
+
+    TurpialCore.prototype.$interval = function(name, callback, interval) {
+        _interval.push(name, callback, interval);
+    }
+
+    TurpialCore.prototype.$interval.cancel = function(name) {
+        _interval.remove(name)
+    }
+};
 
 var _tulipan = (function() {
     var _apps = new Map();
     var _routes = new Map();
 
     var _router = new Navigo(null, true, '#!');
-    
-    function _hideApps(){
+
+    function _hideApps() {
         for (const [key, app] of _routes.entries()) {
             app.$set("visibleApp", false);
         }
     }
 
-    function _showApp(_id){
+    function _showApp(_id) {
         for (const [key, app] of _routes.entries()) {
-            if (key == _id){    
+            if (key == _id) {
                 app.$set("visibleApp", true);
                 return;
             }
         }
     }
 
-    function _getApp(el){
+    function _getApp(el) {
         return _apps.get(el);
     }
 
-    function _pushApp(el, app){
+    function _pushApp(el, app) {
         _apps.set(el, app);
     }
 
-    function _idAvailable(_id){
+    function _idAvailable(_id) {
 
         for (const [key, app] of _apps.entries()) {
-            if (key == _id){
+            if (key == _id) {
                 return false;
             }
         }
@@ -65,17 +109,17 @@ var _tulipan = (function() {
         return true;
     }
 
-    function _setInApp(el, key, value){
+    function _setInApp(el, key, value) {
         var app = _getApp(el);
         app.$set(key, value);
     }
 
-    function _getInApp(el, key){
+    function _getInApp(el, key) {
         var app = _getApp(el);
         return app.$get(key);
     }
 
-    function route(options){
+    function route(options) {
         var _id = options.app.$el.getAttribute("id");
         var app = options.app;
 
@@ -85,49 +129,49 @@ var _tulipan = (function() {
 
         var router_options = new Object();
 
-        var handler = function(params, query){
+        var handler = function(params, query) {
             _hideApps();
 
-            if (typeof(options.main) !== "undefined"){
-                
+            if (typeof(options.main) !== "undefined") {
+
                 _showApp(options.main.replace("#", ""));
 
             }
-                
-            if (query !== "" && typeof(query) !== "undefined"){
-                var queryObject = JSON.parse('{"' + query.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) });
+
+            if (query !== "" && typeof(query) !== "undefined") {
+                var queryObject = JSON.parse('{"' + query.replace(/&/g, '","').replace(/=/g, '":"') + '"}', function(key, value) { return key === "" ? value : decodeURIComponent(value) });
             }
-            
-            if(typeof(app.before) !== "undefined"){
+
+            if (typeof(app.before) !== "undefined") {
                 app.before(params, queryObject);
             }
 
             app.$set("visibleApp", true);
 
-            if(typeof(app.after) !== "undefined"){
+            if (typeof(app.after) !== "undefined") {
                 app.after(params, queryObject);
             }
 
         }
 
-        if(typeof(app.leave) !== "undefined"){
+        if (typeof(app.leave) !== "undefined") {
             router_options.leave = app.leave;
         }
 
         _router.on(route, handler, router_options);
     }
 
-    function resolve(){
+    function resolve() {
         _router.resolve();
     }
-  
+
     return {
-      route: route,
-      router_resolve: resolve,
-      getApp: _getApp,
-      setInApp: _setInApp,
-      getInApp: _getInApp,
-      idAvailable: _idAvailable
+        route: route,
+        router_resolve: resolve,
+        getApp: _getApp,
+        setInApp: _setInApp,
+        getInApp: _getInApp,
+        idAvailable: _idAvailable
     };
 })();
 
@@ -135,32 +179,33 @@ var AppSetPlugin = new Object;
 
 AppSetPlugin.install = function(TurpialCore) {
 
-   TurpialCore.prototype.$setOn = _tulipan.setInApp;
+    TurpialCore.prototype.$setOn = _tulipan.setInApp;
 };
 
 var AppGetPlugin = new Object;
 
 AppGetPlugin.install = function(TurpialCore) {
 
-   TurpialCore.prototype.$getOn = _tulipan.getInApp;
+    TurpialCore.prototype.$getOn = _tulipan.getInApp;
 };
 
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.Tulipan = factory());
-}(this, (function () { 'use strict';
+(function(global, factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+        typeof define === 'function' && define.amd ? define(factory) :
+        (global.Tulipan = factory());
+}(this, (function() {
+    'use strict';
 
-    function asyncLoadHTML(url, callback){
+    function asyncLoadHTML(url, callback) {
         var req = new XMLHttpRequest();
         req.open('GET', url);
         req.send();
-        req.onload = function(){
+        req.onload = function() {
             callback(req.responseText);
         }
     }
 
-    function syncLoadHTML(url){
+    function syncLoadHTML(url) {
         var req = new XMLHttpRequest();
         req.open('GET', url, false);
         req.send(null);
@@ -173,25 +218,24 @@ AppGetPlugin.install = function(TurpialCore) {
     function createElementFromHTML(htmlString) {
         var div = document.createElement('div');
         div.innerHTML = htmlString.trim();
-        return div.firstChild; 
+        return div.firstChild;
     }
 
-    function top_router(element){
-        
+    function top_router(element) {
+
         for (var i = 0; i < element.children.length; i++) {
-            if (element.children[i].tagName == "ROUTER-VIEW"){
+            if (element.children[i].tagName == "ROUTER-VIEW") {
                 return element.children[i];
             }
         }
 
         for (var i = 0; i < element.children.length; i++) {
-            
+
             var result = top_router(element.children[i]);
-            
-            if (typeof(result) !== "undefined"){
-                
-                if (result.tagName == "ROUTER-VIEW")
-                {
+
+            if (typeof(result) !== "undefined") {
+
+                if (result.tagName == "ROUTER-VIEW") {
                     return result;
                 }
 
@@ -199,12 +243,12 @@ AppGetPlugin.install = function(TurpialCore) {
         }
     }
 
-    function registerRoute(divApp, options){
+    function registerRoute(divApp, options) {
 
         options.data.visibleApp = false;
         divApp.setAttribute("tp-show", "visibleApp");
 
-        if (typeof(options.route) == "object"){
+        if (typeof(options.route) == "object") {
             var main = options.route.main;
             var route = options.route.route;
             var main_div = document.querySelector(main + " " + "router-view");
@@ -217,8 +261,8 @@ AppGetPlugin.install = function(TurpialCore) {
         main_div.appendChild(divApp);
 
         var app = new TurpialCore(options);
-        
-        if (typeof(options.route) == "object"){
+
+        if (typeof(options.route) == "object") {
             _tulipan.route({
                 main: main,
                 route: route,
@@ -236,17 +280,17 @@ AppGetPlugin.install = function(TurpialCore) {
         return app;
     }
 
-    function elAvailable(el){
+    function elAvailable(el) {
         return _tulipan.idAvailable(el);
     }
-    
+
     function Tulipan(options) {
 
-        if(typeof(options.route) !== "undefined"){
+        if (typeof(options.route) !== "undefined") {
 
             var app = null;
 
-            if (typeof(options.template) !== "undefined"){
+            if (typeof(options.template) !== "undefined") {
 
                 options["tplOpts"] = options["template"];
                 delete options['template'];
@@ -254,23 +298,23 @@ AppGetPlugin.install = function(TurpialCore) {
                 var template = options.tplOpts;
                 var div_app = null;
 
-                if (typeof(template.url) !== "undefined"){
-                    
+                if (typeof(template.url) !== "undefined") {
+
                     var templateUrl = template.url;
 
-                    if (template.async == true){
+                    if (template.async == true) {
 
-                        asyncLoadHTML(templateUrl, function(html){
+                        asyncLoadHTML(templateUrl, function(html) {
                             div_app = createElementFromHTML(html);
-                            
-                            if (div_app.id == ""){
+
+                            if (div_app.id == "") {
                                 var rand = Math.floor(Math.random() * 999);
                                 var el = "tp-" + rand;
-                                while (!elAvailable(el)){
+                                while (!elAvailable(el)) {
                                     rand = Math.floor(Math.random() * 999);
                                     el = "tp-" + rand;
                                 }
-                                
+
                                 div_app.setAttribute("id", "tp-" + rand);
                                 options.el = "#" + el;
                             } else {
@@ -294,26 +338,26 @@ AppGetPlugin.install = function(TurpialCore) {
                 }
 
                 div_app = createElementFromHTML(html);
-                
-                if (div_app.id == ""){
+
+                if (div_app.id == "") {
                     var rand = Math.floor(Math.random() * 999);
                     var el = "tp-" + rand;
-                    while (!elAvailable(el)){
+                    while (!elAvailable(el)) {
                         rand = Math.floor(Math.random() * 999);
                         el = "tp-" + rand;
                     }
-                    
+
                     div_app.setAttribute("id", "tp-" + rand);
                     options.el = "#" + el;
                 } else {
                     options.el = "#" + div_app.id;
                 }
-                
+
             } else {
 
                 var _id = options.el;
                 var div_app = document.querySelector(_id);
-                
+
             }
 
             app = registerRoute(div_app, options);
@@ -321,61 +365,61 @@ AppGetPlugin.install = function(TurpialCore) {
         } else {
             var app = new TurpialCore(options);
 
-            app.$navigate = function(path){
+            app.$navigate = function(path) {
                 _router.navigate(path);
             }
         }
-        
+
         return app;
     }
 
-    Tulipan.version = '1.0.5';
+    Tulipan.version = '1.0.6';
 
     Tulipan.extend = function(options) {
         TurpialCore.extend(options);
     };
 
-    Tulipan.nextTick = function(callback){
+    Tulipan.nextTick = function(callback) {
         TurpialCore.nextTick(callback);
     };
 
-    Tulipan.set = function(object, key, value){
+    Tulipan.set = function(object, key, value) {
         TurpialCore.set(object, key, value);
     };
 
-    Tulipan.delete = function(object, key){
+    Tulipan.delete = function(object, key) {
         TurpialCore.delete(object, key);
     };
 
-    Tulipan.directive = function () {
+    Tulipan.directive = function() {
 
-        if (arguments.length == 1){
+        if (arguments.length == 1) {
             return TurpialCore.directive(arguments[0]);
         }
 
-        if (arguments.length == 2){
+        if (arguments.length == 2) {
             return TurpialCore.directive(arguments[0], arguments[1]);
         }
     };
 
-    Tulipan.filter = function (name, callback) {
+    Tulipan.filter = function(name, callback) {
         TurpialCore.filter(name, callback);
     };
 
     Tulipan.use = function() {
-        if (arguments.length == 1){
+        if (arguments.length == 1) {
             return TurpialCore.use(arguments[0]);
         }
 
-        if (arguments.length == 2){
+        if (arguments.length == 2) {
             return TurpialCore.use(arguments[0], arguments[1]);
         }
     };
 
-    Tulipan.getApp = function(el){
+    Tulipan.getApp = function(el) {
         return _tulipan.getApp(el);
     };
-    
+
     Tulipan.use(StorePlugin);
 
     Tulipan.use(RouterPlugin);
@@ -385,6 +429,10 @@ AppGetPlugin.install = function(TurpialCore) {
     Tulipan.use(AppSetPlugin);
 
     Tulipan.use(AppGetPlugin);
+
+    Tulipan.use(TimeoutPlugin);
+
+    Tulipan.use(IntervalPlugin);
 
     return Tulipan;
 })));
