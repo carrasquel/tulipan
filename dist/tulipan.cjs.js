@@ -14303,7 +14303,7 @@ return plugin;
 
 })));
 /*!
- * tulipan.js v1.0.6
+ * tulipan.js v1.0.7
  * (c) 2020 Nelson Carrasquel
  * Released under the MIT License.
  */
@@ -14336,6 +14336,13 @@ TimeoutPlugin.install = function(TurpialCore) {
     TurpialCore.prototype.$timeout = function(callback, timeout) {
         setTimeout(callback, timeout);
     }
+};
+
+var MomentPlugin = new Object;
+
+MomentPlugin.install = function(TurpialCore) {
+
+    TurpialCore.prototype.$moment = moment;
 };
 
 var _interval = (function() {
@@ -14737,6 +14744,8 @@ AppGetPlugin.install = function(TurpialCore) {
     Tulipan.use(TimeoutPlugin);
 
     Tulipan.use(IntervalPlugin);
+
+    Tulipan.use(MomentPlugin);
 
     return Tulipan;
 })));
