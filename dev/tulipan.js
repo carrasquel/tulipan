@@ -380,7 +380,7 @@ AppGetPlugin.install = function(TurpialCore) {
         return app;
     }
 
-    Tulipan.version = '1.0.6';
+    Tulipan.version = '1.0.7';
 
     Tulipan.extend = function(options) {
         TurpialCore.extend(options);
