@@ -155,6 +155,10 @@ var _tulipan = (function() {
 
             app.$set("visibleApp", true);
 
+            app.$routed = function(){
+                return this.visibleApp;
+            }
+
             if (typeof(app.after) !== "undefined") {
                 app.after(params, queryObject);
             }

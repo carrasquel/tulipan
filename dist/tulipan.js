@@ -14459,6 +14459,10 @@ var _tulipan = (function() {
 
             app.$set("visibleApp", true);
 
+            app.$routed = function(){
+                return this.visibleApp;
+            }
+
             if (typeof(app.after) !== "undefined") {
                 app.after(params, queryObject);
             }
@@ -14684,7 +14688,7 @@ AppGetPlugin.install = function(TurpialCore) {
         return app;
     }
 
-    Tulipan.version = '1.0.6';
+    Tulipan.version = '1.0.7';
 
     Tulipan.extend = function(options) {
         TurpialCore.extend(options);
