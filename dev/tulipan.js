@@ -1,5 +1,5 @@
 /*!
- * tulipan.js v1.0.7
+ * tulipan.js v1.0.8
  * (c) 2020 Nelson Carrasquel
  * Released under the MIT License.
  */
@@ -384,7 +384,7 @@ AppGetPlugin.install = function(TurpialCore) {
         return app;
     }
 
-    Tulipan.version = '1.0.7';
+    Tulipan.version = '1.0.8';
 
     Tulipan.extend = function(options) {
         TurpialCore.extend(options);
@@ -446,6 +446,8 @@ AppGetPlugin.install = function(TurpialCore) {
     Tulipan.use(IntervalPlugin);
 
     Tulipan.use(MomentPlugin);
+
+    Tulipan.prototype = TurpialCore.prototype;
 
     return Tulipan;
 })));
