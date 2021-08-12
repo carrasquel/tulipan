@@ -1,5 +1,5 @@
 /*!
- * tulipan.js v1.0.8
+ * tulipan.js v1.0.9
  * (c) 2020 Nelson Carrasquel
  * Released under the MIT License.
  */
@@ -79,6 +79,7 @@ IntervalPlugin.install = function(TurpialCore) {
 var _tulipan = (function() {
     var _apps = new Map();
     var _routes = new Map();
+    var _relationships = new Map();
 
     var _router = new Navigo(null, true, '#!');
 
@@ -89,12 +90,20 @@ var _tulipan = (function() {
     }
 
     function _showApp(_id) {
+
+        var parent = _relationships.get(_id);
+
+        if (typeof(parent) !== "undefined"){
+            _showApp(parent);
+        }
+
         for (const [key, app] of _routes.entries()) {
             if (key == _id) {
                 app.$set("visibleApp", true);
                 return;
             }
         }
+
     }
 
     function _getApp(el) {
@@ -134,16 +143,18 @@ var _tulipan = (function() {
         _routes.set(_id, options.app);
         var route = options.route;
 
+        if (typeof(options.main) !== "undefined") {
+
+            // _showApp(options.main.replace("#", ""));
+            var parent = options.main.replace("#", "");
+            _relationships.set(_id, parent);
+
+        }
+
         var router_options = new Object();
 
         var handler = function(params, query) {
             _hideApps();
-
-            if (typeof(options.main) !== "undefined") {
-
-                _showApp(options.main.replace("#", ""));
-
-            }
 
             if (query !== "" && typeof(query) !== "undefined") {
                 var queryObject = JSON.parse('{"' + query.replace(/&/g, '","').replace(/=/g, '":"') + '"}', function(key, value) { return key === "" ? value : decodeURIComponent(value) });
@@ -153,7 +164,8 @@ var _tulipan = (function() {
                 app.before(params, queryObject);
             }
 
-            app.$set("visibleApp", true);
+            // app.$set("visibleApp", true);
+            _showApp(_id);
 
             app.$routed = function(){
                 return this.visibleApp;
@@ -384,7 +396,7 @@ AppGetPlugin.install = function(TurpialCore) {
         return app;
     }
 
-    Tulipan.version = '1.0.8';
+    Tulipan.version = '1.0.9';
 
     Tulipan.extend = function(options) {
         TurpialCore.extend(options);
