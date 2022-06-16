@@ -14,6 +14,7 @@ var _store = (function() {
         var cb = _callbacks.get(key);
         if (typeof(cb) !== "undefined") {
             vm = _vms.get(key);
+            console.log(vm);
             cb.call(vm, value);
         }
     };
