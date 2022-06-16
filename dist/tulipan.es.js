@@ -1,6 +1,6 @@
 /*!
-* Tulipan.js v1.0.0
-* (c) 2020 Nelson Carrasquel
+* Tulipan.js v1.1
+* (c) 2022 Nelson Carrasquel
 * Released under the MIT License.
 */
 (function (global, factory) {
@@ -19974,16 +19974,48 @@ return plugin;
 
 })));
 /*!
- * tulipan.js v1.0.9
+ * tulipan.js v1.1
  * (c) 2020 Nelson Carrasquel
  * Released under the MIT License.
  */
+
+var _store = (function() {
+    var _store = store;
+    var _callbacks = new Map();
+    var _vms = new Map();
+
+    function _set(key, value) {
+        _store.set(key, value);
+        var cb = _callbacks.get(key);
+        if (typeof(cb) !== "undefined") {
+            vm = _vms.get(key);
+            cb.call(vm, value);
+        }
+    };
+
+    function _get(key) {
+        return _store.get(key);
+    };
+
+    function _subscribe(key, cb, vm){
+        _callbacks.set(key, cb);
+        _vms.set(key, vm);
+    }
+
+    return {
+        get: _get,
+        set: _set,
+        subscribe: _subscribe
+        
+    };
+
+})();
 
 var StorePlugin = new Object;
 
 StorePlugin.install = function(TurpialCore) {
 
-    TurpialCore.prototype.$store = store;
+    TurpialCore.prototype.$store = _store;
 };
 
 var UnderscorePlugin = new Object;
@@ -20057,6 +20089,8 @@ var _tulipan = (function() {
     var _relationships = new Map();
 
     var _router = new Navigo(null, true, '#!');
+
+    var __store = _store;
 
     function _hideApps() {
         for (const [key, app] of _routes.entries()) {
@@ -20163,10 +20197,15 @@ var _tulipan = (function() {
         _router.resolve();
     }
 
+    function subscribe(key, callback, vm){
+        __store.subscribe(key, callback, vm);
+    }
+
     return {
         route: route,
         router_resolve: resolve,
         getApp: _getApp,
+        subscribe: subscribe,
         setInApp: _setInApp,
         getInApp: _getInApp,
         idAvailable: _idAvailable
@@ -20239,6 +20278,12 @@ AppGetPlugin.install = function(TurpialCore) {
 
             }
         }
+    }
+
+    function registerStoreCallback(options, vm){
+        var key = options.key;
+        var callback = options.callback;
+        _tulipan.subscribe(key, callback, vm);
     }
 
     function registerRoute(divApp, options) {
@@ -20368,10 +20413,14 @@ AppGetPlugin.install = function(TurpialCore) {
             }
         }
 
+        if (typeof(options.subscribe) !== "undefined") {
+            registerStoreCallback(options.subscribe, app);
+        }
+
         return app;
     }
 
-    Tulipan.version = '1.0.9';
+    Tulipan.version = '1.1';
 
     Tulipan.extend = function(options) {
         TurpialCore.extend(options);

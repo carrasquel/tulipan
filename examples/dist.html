@@ -187,7 +187,8 @@
 
             data: {
                 value: 12,
-                name: "pereza"
+                name: "pereza",
+                flag: 0,
             },
 
             methods: {
@@ -202,6 +203,13 @@
 
                 leave: function(){
                     console.log("Leaving app3");
+                }
+            },
+
+            subscribe: {
+                key: "flag",
+                callback: function(value){
+                    this.flag = value;
                 }
             },
 

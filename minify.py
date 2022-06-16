@@ -10,8 +10,8 @@ files = ["navigo.js", "store.js", "underscore.js", "moment.js", "turpial-core.js
 
 lines = [
     "/*!\n",
-    "* Tulipan.js v1.0.0\n",
-    "* (c) 2020 Nelson Carrasquel\n",
+    "* Tulipan.js v1.1\n",
+    "* (c) 2022 Nelson Carrasquel\n",
     "* Released under the MIT License.\n",
     "*/\n"
 ]

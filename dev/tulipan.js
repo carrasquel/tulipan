@@ -1,5 +1,5 @@
 /*!
- * tulipan.js v1.0.9
+ * tulipan.js v1.1
  * (c) 2020 Nelson Carrasquel
  * Released under the MIT License.
  */
