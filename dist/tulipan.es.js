@@ -19980,26 +19980,26 @@ return plugin;
  */
 
 var _store = (function() {
-    var _store = store;
+    var __store = store;
     var _callbacks = new Map();
-    var _vms = new Map();
+    var _apps = new Map();
 
     function _set(key, value) {
-        _store.set(key, value);
-        var cb = _callbacks.get(key);
-        if (typeof(cb) !== "undefined") {
-            vm = _vms.get(key);
-            cb.call(vm, value);
+        __store.set(key, value);
+        var callback = _callbacks.get(key);
+        if (typeof(callback) !== "undefined") {
+            var app = _apps.get(key);
+            callback.call(app, value);
         }
     };
 
     function _get(key) {
-        return _store.get(key);
+        return __store.get(key);
     };
 
-    function _subscribe(key, cb, vm){
+    function _subscribe(key, cb, app){
         _callbacks.set(key, cb);
-        _vms.set(key, vm);
+        _apps.set(key, app);
     }
 
     return {
@@ -20197,8 +20197,8 @@ var _tulipan = (function() {
         _router.resolve();
     }
 
-    function subscribe(key, callback, vm){
-        __store.subscribe(key, callback, vm);
+    function subscribe(key, callback, app){
+        __store.subscribe(key, callback, app);
     }
 
     return {
@@ -20280,10 +20280,10 @@ AppGetPlugin.install = function(TurpialCore) {
         }
     }
 
-    function registerStoreCallback(options, vm){
+    function registerStoreCallback(options, app){
         var key = options.key;
         var callback = options.callback;
-        _tulipan.subscribe(key, callback, vm);
+        _tulipan.subscribe(key, callback, app);
     }
 
     function registerRoute(divApp, options) {
