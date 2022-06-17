@@ -66,12 +66,17 @@ TimeoutPlugin.install = function(TurpialCore) {
     }
 };
 
-var MomentPlugin = new Object;
+// var MomentPlugin = new Object;
 
-MomentPlugin.install = function(TurpialCore) {
+// MomentPlugin.install = function(TurpialCore) {
 
-    TurpialCore.prototype.$moment = moment;
-};
+//    TurpialCore.prototype.$moment = moment;
+//};
+
+var DayjsPlugin = new Object;
+DayjsPlugin.install = function(TurpialCore){
+    TurpialCore.prototype.$dayjs = dayjs;
+}
 
 var _interval = (function() {
     var _intervals = new Map();
@@ -506,7 +511,8 @@ AppGetPlugin.install = function(TurpialCore) {
 
     Tulipan.use(IntervalPlugin);
 
-    Tulipan.use(MomentPlugin);
+    // Tulipan.use(MomentPlugin);
+    Tulipan.use(DayjsPlugin);
 
     Tulipan.prototype = TurpialCore.prototype;
 

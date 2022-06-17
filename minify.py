@@ -6,7 +6,7 @@ import sys
 import gzip
 import requests
 
-files = ["navigo.js", "store.js", "underscore.js", "moment.js", "turpial-core.js", "turpial-resource.js", "tulipan.js"]
+files = ["navigo.js", "store.js", "underscore.js", "dayjs.min.js", "turpial-core.js", "turpial-resource.js", "tulipan.js"]
 
 lines = [
     "/*!\n",
