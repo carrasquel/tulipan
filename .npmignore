@@ -1,3 +1,5 @@
 requirements.txt
 minify.py
 /dev
+/env
+/.pytest_cache
