@@ -1,5 +1,5 @@
 /*!
-* Tulipan.js v1.2.0
+* Tulipan.js v1.6.0
 * (c) 2022 Nelson Carrasquel
 * Released under the MIT License.
 */
@@ -2493,7 +2493,7 @@ return Navigo;
 })));
 //# sourceMappingURL=underscore.js.map
 /*!
- * TurpialCore.js v1.2.0
+ * TurpialCore.js v1.6.0
  * (c) 2020 Nelson Carrasquel
  * Released under the MIT License.
  */
@@ -12786,7 +12786,7 @@ return Navigo;
     return TurpialCore;
 
 })));/*!
- * turpial-resource v1.0.0
+ * turpial-resource v1.1.0
  * https://github.com/pagekit/turpial-resource
  * Released under the MIT License.
  */
@@ -13880,43 +13880,6 @@ var xhrClient = function (request) {
 };
 
 /**
- * Http client (Node).
- */
-
-var nodeClient = function (request) {
-
-    var client = require('got');
-
-    return new PromiseObj(function (resolve) {
-
-        var url = request.getUrl();
-        var body = request.getBody();
-        var method = request.method;
-        var headers = {}, handler;
-
-        request.headers.forEach(function (value, name) {
-            headers[name] = value;
-        });
-
-        client(url, {body: body, method: method, headers: headers}).then(handler = function (resp) {
-
-            var response = request.respondWith(resp.body, {
-                    status: resp.statusCode,
-                    statusText: trim(resp.statusMessage)
-                }
-            );
-
-            each(resp.headers, function (value, name) {
-                response.headers.set(name, value);
-            });
-
-            resolve(response);
-
-        }, function (error$$1) { return handler(error$$1.response); });
-    });
-};
-
-/**
  * Base client.
  */
 
@@ -14360,7 +14323,7 @@ return plugin;
 
 })));
 /*!
- * tulipan.js v1.2.0
+ * tulipan.js v1.6.0
  * (c) 2020 Nelson Carrasquel
  * Released under the MIT License.
  */
