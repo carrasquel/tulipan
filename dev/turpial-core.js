@@ -1,5 +1,5 @@
 /*!
- * TurpialCore.js v1.0.0
+ * TurpialCore.js v1.2.0
  * (c) 2020 Nelson Carrasquel
  * Released under the MIT License.
  */

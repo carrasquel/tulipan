@@ -2,15 +2,14 @@
 # minify.py
 
 import os
-import sys
 import gzip
 import requests
 
-files = ["navigo.js", "store.js", "underscore.js", "dayjs.min.js", "turpial-core.js", "turpial-resource.js", "tulipan.js"]
+files = ["navigo.js", "store.js", "underscore.js", "turpial-core.js", "turpial-resource.js", "tulipan.js"]
 
 lines = [
     "/*!\n",
-    "* Tulipan.js v1.1\n",
+    "* Tulipan.js v1.2.0\n",
     "* (c) 2022 Nelson Carrasquel\n",
     "* Released under the MIT License.\n",
     "*/\n"
