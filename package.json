@@ -1,6 +1,6 @@
 {
   "name": "tulipan",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Tulipan.js is a simple minimalistic and progressive JavaScript Framework for building Single Page Applications on the web",
   "main": "dist/tulipan.es.js",
   "dependencies": {

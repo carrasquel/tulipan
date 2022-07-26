@@ -9,7 +9,7 @@ files = ["navigo.js", "store.js", "underscore.js", "turpial-core.js", "turpial-r
 
 lines = [
     "/*!\n",
-    "* Tulipan.js v1.6.0\n",
+    "* Tulipan.js v1.7.0\n",
     "* (c) 2022 Nelson Carrasquel\n",
     "* Released under the MIT License.\n",
     "*/\n"

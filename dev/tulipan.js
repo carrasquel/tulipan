@@ -1,6 +1,6 @@
 /*!
- * tulipan.js v1.6.0
- * (c) 2020 Nelson Carrasquel
+ * tulipan.js v1.7.0
+ * (c) 2022 Nelson Carrasquel
  * Released under the MIT License.
  */
 

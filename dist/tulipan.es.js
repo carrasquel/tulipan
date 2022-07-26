@@ -1,5 +1,5 @@
 /*!
-* Tulipan.js v1.6.0
+* Tulipan.js v1.7.0
 * (c) 2022 Nelson Carrasquel
 * Released under the MIT License.
 */
@@ -472,23 +472,11 @@ Navigo.MATCH_REGEXP_FLAGS = '';
 return Navigo;
 
 })));
-"use strict"
-// Module export pattern from
-// https://github.com/umdjs/umd/blob/master/returnExports.js
-;(function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define([], factory);
-    } else if (typeof exports === 'object') {
-        // Node. Does not work with strict CommonJS, but
-        // only CommonJS-like environments that support module.exports,
-        // like Node.
-        module.exports = factory();
-    } else {
-        // Browser globals (root is window)
-        root.store = factory();
-  }
-}(this, function () {
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.store = factory());
+}(this, (function () { 'use strict';
 	
 	// Store.js
 	var store = {},
@@ -662,7 +650,7 @@ return Navigo;
 	store.enabled = !store.disabled
 	
 	return store
-}));
+})));
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define('underscore', factory) :
@@ -2493,7 +2481,7 @@ return Navigo;
 })));
 //# sourceMappingURL=underscore.js.map
 /*!
- * TurpialCore.js v1.6.0
+ * TurpialCore.js v1.7.0
  * (c) 2020 Nelson Carrasquel
  * Released under the MIT License.
  */
@@ -14323,8 +14311,8 @@ return plugin;
 
 })));
 /*!
- * tulipan.js v1.6.0
- * (c) 2020 Nelson Carrasquel
+ * tulipan.js v1.7.0
+ * (c) 2022 Nelson Carrasquel
  * Released under the MIT License.
  */
 
